@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all
-    sleep 2
+    #sleep 2
   end
 
   # GET /posts/1

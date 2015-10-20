@@ -8,7 +8,7 @@ class ValidateBenchmarkTest < ActionDispatch::IntegrationTest
     csv_files.each do |csv_file|
       old, new = CSV.open(csv_file).to_a[-2,2].map(&:first).map(&:to_f)
       # calculate % increase in time if greater than 10 assert false
-      unless(old == 0 and new == 0)
+      if(old and new and old != 0)
         a = (new-old)/old * 100
         if(a> 10)
         assert false, "Validating #{csv_file.split('#').last}. Last request took around #{new} to finish.  #{a.to_i} % more than previous"
