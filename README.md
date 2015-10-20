@@ -8,3 +8,7 @@ run a test defined at `/test/integration/validate_benchmark_test.rb`
 The test defined at `/test/integration/validate_benchmark_test.rb` will 
 check in every `*_wall_time.csv`s the percentage increase of time(measurements). 
 If the % is greater than 10 it will assert failure else the test will pass.
+
+
+Visit url `/csv` to see the wall time csv's generated for all the test
+in a table format
