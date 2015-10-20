@@ -1,0 +1,11 @@
+<div id="benchmark-files-select">
+  <%= form_tag '/csv', method: 'get' do%>
+  <%= select_tag "file_name", options_for_select(@csv_files.map { |f| [f.split('#').last, f] }, [@file_name]) %>
+  <%= submit_tag "Go" %>
+  <% end%>
+</div>
+<div id="performance-info">
+  <% if @file_name %>
+  <%= render "performance_info" %>
+  <% end %>
+</div>

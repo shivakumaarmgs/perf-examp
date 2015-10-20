@@ -1,0 +1,16 @@
+<table class="table table-striped">
+  <thead>
+    <% @headers.each do |header| %>
+    <th><%= header %></th>
+    <% end %>
+  </thead>
+  <tbody>
+  <% @csv_rows.reverse.each do |curr, prev| %>
+  <tr>
+    <% @headers.each do |header| %>
+    <td><%= curr[header] %></td>
+    <% end %>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
