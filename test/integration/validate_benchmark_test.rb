@@ -10,7 +10,9 @@ class ValidateBenchmarkTest < ActionDispatch::IntegrationTest
       # calculate % increase in time if greater than 10 assert false
       unless(old == 0 and new == 0)
         a = (new-old)/old * 100
-        assert false, "Request took around #{new} to finish.  #{a.to_i} % more than previous" if(a > 10)
+        if(a> 10)
+        assert false, "Validating #{csv_file.split('#').last}. Last request took around #{new} to finish.  #{a.to_i} % more than previous"
+        end
       end
     end
     assert true

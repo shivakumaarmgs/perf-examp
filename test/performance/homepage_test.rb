@@ -9,8 +9,4 @@ class HomepageTest < ActionDispatch::PerformanceTest
   test "homepage performance test" do
     get '/'
   end
-
-  test "comments index test" do
-    get '/comments'
-  end
 end
