@@ -1,5 +1,3 @@
-require 'csv'
-
 namespace :test do
   Rake::TestTask.new(:validate_benchmark => ['test:benchmark']) do |t|
     t.libs << 'test'

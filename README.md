@@ -1,28 +1,46 @@
-Run `rake test:validate_benchmark`
+Sample app for validating the wall time benchmarks. 
 
+### How it works?
+* Run the following rake task
+```ruby
+  namespace :test do
+    Rake::TestTask.new(:validate_benchmark => ['test:benchmark']) do |t|
+      t.libs << 'test'
+      t.test_files = ['test/integration/validate_benchmark_test.rb']
+    end
+  end
+```
 
-This will run the `rake test:benchmark` task first, then will
-run a test defined at `/test/integration/validate_benchmark_test.rb`
+* It first runs the `rake test:benchmark` task which will generate benchmarks
+csv for all the given test scenarios.
 
+* The the test defined at `test/integration/validate_benchmark_test.rb` will be executed
+```ruby
+  test "validate time benchmarks are good" do
+    csv_files = Dir.glob "#{Rails.root}/tmp/performance/*_wall_time.csv"
+    csv_files.each do |csv_file|
+      old, new = CSV.open(csv_file).to_a[-2,2].map(&:first).map(&:to_f)
+      # calculate % increase in time if greater than 10 assert false
+      if(old and new and old != 0)
+        a = (new-old)/old * 100
+        if(a> 10)
+        assert false, "Validating #{csv_file.split('#').last}. Last request took around #{new} to finish.  #{a.to_i} % more than previous"
+        end
+      end
+    end
+    assert true
+  end
+```
 
-The test defined at `/test/integration/validate_benchmark_test.rb` will 
-check in every `*_wall_time.csv`s the percentage increase of time(measurements). 
-If the % is greater than 10 it will assert failure else the test will pass.
+* Above test compares last 2 measuremnent times recorded in all `*_wall_time.csv` 
+files inside the directory `tmp/performance/` where the performance benchmark results
+are generally stored.
 
+* The measuremnent times are compared for the percentage increase. If the
+percentage increase of time is greater than 10(for now hardcoded) the test will
+fail, it its lesser than 10 the test will pass.
 
-Visit url `/csv` to see the wall time csv's generated for all the test
-in a table format
+* Visit url `/csv` to view the history of wall time benchmarks recorded for all the 
+tests, including the percentage increase in time between each tests.
 
 ### To Test
-Run `rake test:validate_benchmark`
-
-
-The only test available in `test/performance/homepage_test.rb` is 
-`homepage` test. This will record the wall time for the homepage request
-
-
-Now go to file `app/controllers/posts_controller.rb` and uncomment line
-number 8. ie `sleep 2`
-
-
-Now re-run the `rake test:validate_benchmark`, this will fail
