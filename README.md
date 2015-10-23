@@ -44,3 +44,23 @@ fail, it its lesser than 10 the test will pass.
 tests, including the percentage increase in time between each tests.
 
 ### To Test
+* There is one performance test at `test/performace/homepage_test.rb`
+```ruby
+  test "homepage" do
+    get '/'
+  end
+```
+The homepage (ie) root is set to `PostsController#index` action
+
+* Run `rake test:validate_benchmark`.
+
+* Goto PostsController#index action and uncomment line 8, then again run
+`rake test:validate_benchmark`.
+
+* There will be a significant increase in walltime hence the test will fail.
+
+* Comment the line 8 again at `posts_controller.rb` file then run the rake again
+the test will now pass.
+
+* Visit url `/csv` to view the history of wall time benchmarks recorded for all the 
+tests, including the percentage increase in time between each tests.
